@@ -36,6 +36,51 @@ const Mask = {
             style: 'currency',
             currency: 'BRL' //R$1.000,00
         }).format(value/100) //Dividir por 100 pq ele transforma 1,00 em 100 (tirando a vírgula pela Expressão Regular), então eu transformo de volta!
+    },
+
+    cpfCnpj(value) {
+        // removes any non-numeric character
+        value = value.replace(/\D/g, "")
+
+        // limits 14 characters in the field
+        if (value.length > 14)
+            value = value.slice(0, -1)
+
+        // check if it is CNPJ - 11.222.333/4444-55
+        if (value.length > 11) {
+            // 11.222333444455
+            value = value.replace(/(\d{2})(\d)/, "$1.$2")
+            // 11.222.333444455
+            value = value.replace(/(\d{3})(\d)/, "$1.$2")
+            // 11.222.333/444455
+            value = value.replace(/(\d{3})(\d)/, "$1/$2")
+            // 11.222.333/4444-55
+            value = value.replace(/(\d{4})(\d)/, "$1-$2")
+        } else {
+            // check if it is CPF - 111.222.333-44
+            // 111.22233344
+            value = value.replace(/(\d{3})(\d)/, "$1.$2")
+            // 111.222.33344
+            value = value.replace(/(\d{3})(\d)/, "$1.$2")
+            // 111.222.333-44
+            value = value.replace(/(\d{3})(\d)/, "$1-$2")
+        }
+
+        return value
+    },
+
+    cep(value) {
+        // removes any non-numeric character
+        value = value.replace(/\D/g, "")
+
+        // limits 8 characters in the field
+        if (value.length > 8)
+            value = value.slice(0, -1)
+
+        // formats to CEP - 11111-111
+        value = value.replace(/(\d{5})(\d)/, "$1-$2")
+
+        return value
     }
 }
 
@@ -175,5 +220,80 @@ const Lightbox = {
         Lightbox.target.style.top = "-100%"
         Lightbox.target.style.bottom = "initial"
         Lightbox.closeButton.style.top = "-80px"
+    }
+}
+
+const Validate = {
+    apply(input, func) {
+        Validate.clearErrors(input)
+        
+        let results = Validate[func](input.value)
+        input.value = results.value
+
+        if (results.error)
+            Validate.displayError(input, results.error)
+    },
+
+    displayError(input, error) {
+        const div = document.createElement('div')
+        div.classList.add('error')
+        div.innerHTML = error
+        input.parentNode.appendChild(div)
+
+        // prevents the user from leaving the field with an error
+        input.focus()
+    },
+
+    clearErrors(input) {
+        const errorDiv = input.parentNode.querySelector('.error')
+
+        if (errorDiv)
+            errorDiv.remove()
+    },
+
+    isEmail(value) {
+        let error = null
+        const mailFormat = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/
+
+        if (!value.match(mailFormat))
+            error = "Email inválido"
+
+        return {
+            error,
+            value
+        }
+    },
+
+    isCpfCnpj(value) {
+        let error = null
+
+        const cleanValues = value.replace(/\D/g, "")
+
+        if (cleanValues.length > 11 && cleanValues.length !== 14) {
+            error = "CNPJ inválido"
+        } 
+        else if (cleanValues.length < 12 && cleanValues.length !== 11) {
+            error = "CPF inválido"
+        }
+
+        return {
+            error,
+            value
+        }
+    },
+
+    isCep(value) {
+        let error = null
+
+        const cleanValues = value.replace(/\D/g, "")
+
+        if (cleanValues.length !== 8) {
+            error = "CEP inválido"
+        } 
+
+        return {
+            error,
+            value
+        }
     }
 }
