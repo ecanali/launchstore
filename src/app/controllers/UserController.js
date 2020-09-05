@@ -5,22 +5,13 @@ module.exports = {
         return res.render('user/register')
     },
 
+    show(req, res) {
+        return res.send('Ok, cadastrado.')
+    },
+
     async post(req, res) {
-        // check if has all fields
-        const keys = Object.keys(req.body)
+        const userId = await User.create(req.body)
 
-        for (let key of keys) {
-            if (req.body[key] == "")
-                return res.send("Please, fill out all fields")
-        }
-
-        // check if user exists [email, cpf_cnpj uniques]
-        const { email, cpf_cnpj } = req.body
-
-        const user = await User.findOne({
-            where: { email },
-            or: { cpf_cnpj }
-        })
-
+        return res.redirect('/users')
     }
 }
