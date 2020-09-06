@@ -2,9 +2,11 @@ const express = require('express')
 const nunjucks = require('nunjucks')
 const routes = require('./routes')
 const methodOverride = require('method-override') // Para conseguir usar método PUT no meu form
+const session = require('./config/session')
 
 const server = express()
 
+server.use(session)
 server.use(express.urlencoded({ extended: true }))
 server.use(express.static('public'))
 server.use(methodOverride('_method')) // Tem que vir antes de 'routes' pra sobrescrever certo
