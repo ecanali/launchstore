@@ -1,6 +1,5 @@
 const User = require('../models/User')
-const { formatCpfCnpj, formatCep } = require('../lib/utils')
-const { update } = require('../models/Product')
+const { formatCpfCnpj, formatCep } = require('../../lib/utils')
 
 module.exports = {
     registerForm(req, res) {
@@ -47,6 +46,7 @@ module.exports = {
 
         } catch (error) {
             console.error(error)
+
             return res.render('user/index', {
                 error: "Algum erro aconteceu!"
             })
