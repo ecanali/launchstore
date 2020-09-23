@@ -1,28 +1,54 @@
+const { unlinkSync } = require('fs')
+const { hash } = require('bcryptjs')
+
 const User = require('../models/User')
+
 const { formatCpfCnpj, formatCep } = require('../../lib/utils')
 
 module.exports = {
     registerForm(req, res) {
         return res.render('user/register')
     },
-
     async show(req, res) {
-        const { user } = req
-
-        user.cpf_cnpj = formatCpfCnpj(user.cpf_cnpj)
-        user.cep = formatCep(user.cep)
-
-        return res.render('user/index', { user })
+        try {
+            const { user } = req
+    
+            user.cpf_cnpj = formatCpfCnpj(user.cpf_cnpj)
+            user.cep = formatCep(user.cep)
+    
+            return res.render('user/index', { user })
+            
+        } catch (error) {
+            console.error(error)
+        }
     },
-
     async post(req, res) {
-        const userId = await User.create(req.body)
-        
-        req.session.userId = userId
+        try {
+            let { name, email, password, cpf_cnpj, cep, address } = req.body
+            
+            // hash of password (using 'bcryptjs' lib)
+            password = await hash(password, 8)
 
-        return res.redirect('/users')
+            cpf_cnpj = cpf_cnpj.replace(/\D/g, "")
+            cep = cep.replace(/\D/g, "")
+
+            const userId = await User.create({ 
+                name,
+                email,
+                password,
+                cpf_cnpj,
+                cep,
+                address
+            })
+            
+            req.session.userId = userId
+    
+            return res.redirect('/users')
+            
+        } catch (error) {
+            console.error(error)
+        }
     },
-
     async update(req, res) {
         try {
             const { user } = req
@@ -52,19 +78,39 @@ module.exports = {
             })
         }
     },
-
     async delete(req, res) {
         try {
+            // gets all products from user
+            const products = await Product.findAll({ where: { user_id: req.body.id } })
+
+            // from products, gets all images
+            const allFilesPromise = products.map(product =>
+                Product.files(product.id))
+            
+            let promiseResults = await Promise.all(allFilesPromise)
+
+            // runs user deletion
             await User.delete(req.body.id)
 
             req.session.destroy()
+
+            // removes images from public
+            promiseResults.map(results => {
+                results.rows.map(file => {
+                    try {
+                        unlinkSync(file.path)
+                    } catch (error) {
+                        console.error(error)
+                    }
+                }) 
+            })
 
             return res.render('session/login', {
                 success: "Conta deletada com sucesso!"
             })
 
-        } catch(err) {
-            console.error(err)
+        } catch (error) {
+            console.error(error)
 
             return res.render('user/index', {
                 user: req.body,

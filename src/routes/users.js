@@ -14,13 +14,13 @@ routes.get('/login', isLoggedRedirectToUsers, SessionController.loginForm)
 routes.post('/login', SessionValidator.login, SessionController.login)
 routes.post('/logout', SessionController.logout)
 
-// // reset password / forgot
+// reset password / forgot
 routes.get('/forgot-password', SessionController.forgotForm)
 routes.get('/password-reset', SessionController.resetForm)
 routes.post('/forgot-password', SessionValidator.forgot, SessionController.forgot)
 routes.post('/password-reset', SessionValidator.reset, SessionController.reset)
 
-// // user register
+// user register
 routes.get('/register', UserController.registerForm)
 routes.post('/register', UserValidator.post, UserController.post)
 
