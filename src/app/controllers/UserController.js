@@ -2,6 +2,7 @@ const { unlinkSync } = require('fs')
 const { hash } = require('bcryptjs')
 
 const User = require('../models/User')
+const Product = require('../models/Product')
 
 const { formatCpfCnpj, formatCep } = require('../../lib/utils')
 
@@ -95,8 +96,8 @@ module.exports = {
             req.session.destroy()
 
             // removes images from public
-            promiseResults.map(results => {
-                results.rows.map(file => {
+            promiseResults.map(files => {
+                files.map(file => {
                     try {
                         unlinkSync(file.path)
                     } catch (error) {
