@@ -301,7 +301,7 @@ const Validate = {
         const items = document.querySelectorAll('.item input, .item select, .item textarea')
     
         for (let item of items) {
-            if (item.value == "") {
+            if (item.value == "" && items.removed_files.value != "") {
                 const message = document.createElement('div')
                 message.classList.add('messages')
                 message.classList.add('error')

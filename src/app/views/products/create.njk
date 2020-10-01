@@ -1,15 +1,13 @@
 {% extends 'layout.njk' %}
 
+{% import 'parts/card.njk' as card %}
+
 {% block content %}
 
-    <section class="container form">
+    {% call card.render("Cadastrar Produto", 'product-create container') %}
 
         {# form com "enctype" vai permitir receber arquivos no backend (as fotos) #}
         <form method="POST" action="/products" enctype="multipart/form-data">
-
-            <div class="header">
-                <h3>Cadastrar Produto</h3>
-            </div>
 
             <div class="fields">
                 {% include 'products/fields.njk' %}
@@ -19,6 +17,6 @@
 
         </form>
 
-    </section>
+    {% endcall %}
 
 {% endblock content %}

@@ -13,9 +13,7 @@ async function post(req, res, next) {
     next()
 }
 
-async function put(req, res, next) {
-    console.log(req.body)
-    
+async function put(req, res, next) {    
     // Separa info do Objeto vindo do form por suas Chaves e testa se n veio vazio
     const keys = Object.keys(req.body)
     

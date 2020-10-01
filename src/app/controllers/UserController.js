@@ -3,6 +3,8 @@ const { hash } = require('bcryptjs')
 
 const User = require('../models/User')
 const Product = require('../models/Product')
+const LoadProductsService = require('../services/LoadProductService')
+
 
 const { formatCpfCnpj, formatCep } = require('../../lib/utils')
 
@@ -118,5 +120,12 @@ module.exports = {
                 error: "Erro ao tentar excluir sua conta!"
             })
         }
+    },
+    async ads(req, res) {
+        const products = await LoadProductsService.load('products', {
+            where: { user_id: req.session.userId }
+        })
+
+        return res.render('user/ads', { products })
     }
 }
