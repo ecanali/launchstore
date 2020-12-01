@@ -131,18 +131,24 @@ module.exports = {
         }
     },
     async delete(req, res) {
-        const files = await Product.files(req.body.id)
-
-        await Product.delete(req.body.id)
-        
-        files.map(file => {
-            try {
-                unlinkSync(file.path)
-            } catch (error) {
-                console.error(error)
-            }
-        })
-
-        return res.redirect('/products/create')
+        try {
+            const files = await Product.files(req.body.id)
+    
+            await Product.delete(req.body.id)
+            
+            files.map(file => {
+                try {
+                    if (!file.path.includes("placeholder"))
+                        unlinkSync(file.path)
+                } catch (error) {
+                    console.error(error)
+                }
+            })
+    
+            return res.redirect('/products/create')
+            
+        } catch (error) {
+            
+        }
     }
 }
