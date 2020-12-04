@@ -1,12 +1,12 @@
 module.exports = {
     date(timestamp) {
-        // pega a data mas em formato 'local'
+        // gets the "local" format date
         const date = new Date(timestamp)
 
-        // yyyy (com UTC transformo para data em formato 'universal' = // IMPORTANTE fazer isso pra manipular depois)
+        // yyyy
         const year = date.getFullYear()
 
-        // mm (mês é de 0 a 11, +1 pra fechar os 12)
+        // mm (month is from 0 to 11, +1 to have the 12)
         const month = `0${date.getMonth() + 1}`.slice(-2)
 
         // dd
@@ -26,14 +26,12 @@ module.exports = {
             format: `${day}/${month}/${year}`
         }
     },
-
     formatPrice(price) {
         return new Intl.NumberFormat('pt-BR', {
             style: 'currency',
-            currency: 'BRL' //R$1.000,00
-        }).format(price/100) //Dividir por 100 pq ele transforma 1,00 em 100 (tirando a vírgula pela Expressão Regular), então eu transformo de volta!
+            currency: 'BRL' // R$1.000,00
+        }).format(price/100) // It divides by 100 because it transforms 1,00 into 100 (removing the comma by the Regular Expression), so I turn it back!
     },
-
     formatCpfCnpj(value) {
         // removes any non-numeric character
         value = value.replace(/\D/g, "")
@@ -64,7 +62,6 @@ module.exports = {
 
         return value
     },
-
     formatCep(value) {
         // removes any non-numeric character
         value = value.replace(/\D/g, "")

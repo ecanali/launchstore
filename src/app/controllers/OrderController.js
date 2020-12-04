@@ -1,4 +1,6 @@
 const LoadOrderService = require('../services/LoadOrderService')
+const LoadProductService = require('../services/LoadProductService')
+
 const User = require('../models/User')
 const Order = require('../models/Order')
 

@@ -1,43 +1,19 @@
-/* 
-// "Formatador" do campo Preço da forma antiga, menos dinâmica
-const input = document.querySelector('input[name="price"]')
-
-input.addEventListener('keydown', function(event) {
-    setTimeout(function() {
-        let { value } = event.target
-
-        value = value.replace(/\D/g, "")
-
-        value = new Intl.NumberFormat('pt-BR', {
-            style: 'currency',
-            currency: 'BRL'
-        }).format(value/100)
-
-        event.target.value = value
-    }, 1)
-})
-*/
-
-
-// "Função dinâmica" que posso adicionar ações diferentes de acordo com input que receber
-// Isso substitui e melhora a forma de fazer acima, onde tinha que ficar localizando cada elemento e gerando uma ação pra ele
-// Pra funcionar tenho que acertar o "onkeydown/onclick", etc direto no HTML
+// "Masks" are like dynamic functions I can add different actions according to the input I receive
+// In order to it works I have to add "onkeydown/onclick", etc direct in HTML page
 const Mask = {
     apply(input, func) {
         setTimeout(function() {
             input.value = Mask[func](input.value)
         }, 1)
     },
-
     formatBRL(value) {
-        value = value.replace(/\D/g, "") //Impede colocar outro dígito que não seja número no campo de Preço e formata para Real
-
+        value = value.replace(/\D/g, "") // Prevents input other digit rather than numbers in the Price field and formats it to BRL.
+                                            
         return new Intl.NumberFormat('pt-BR', {
             style: 'currency',
-            currency: 'BRL' //R$1.000,00
-        }).format(value/100) //Dividir por 100 pq ele transforma 1,00 em 100 (tirando a vírgula pela Expressão Regular), então eu transformo de volta!
+            currency: 'BRL' // R$1.000,00
+        }).format(value/100) // It divides by 100 because it transforms 1,00 into 100 (removing the comma by the Regular Expression), so I turn it back!
     },
-
     cpfCnpj(value) {
         // removes any non-numeric character
         value = value.replace(/\D/g, "")
@@ -68,7 +44,6 @@ const Mask = {
 
         return value
     },
-
     cep(value) {
         // removes any non-numeric character
         value = value.replace(/\D/g, "")
@@ -95,7 +70,7 @@ const PhotosUpload = {
 
         if (PhotosUpload.hasLimit(event)) return
 
-        // Uso de "Array.from()" é pra transformar a lista recebida em fileList em um Array e poder usar o forEach
+        // The use of 'Array.from()' is for transforming the received list in 'fileList' into a 'Array', then I can use the 'forEach'.
         Array.from(fileList).forEach(file => {
             
             PhotosUpload.files.push(file)
@@ -141,7 +116,7 @@ const PhotosUpload = {
         return false
     },
     getAllFiles() {
-        // ClipboardEvent é para o Firefix, DataTransfer é para o Chrome
+        // ClipboardEvent is for Firefox, DataTransfer is for Chrome
         const dataTransfer = new ClipboardEvent("").clipboardData || new DataTransfer()
 
         PhotosUpload.files.forEach(file => dataTransfer.items.add(file))
@@ -162,8 +137,10 @@ const PhotosUpload = {
     },
     getRemoveButton() {
         const button = document.createElement('i')
+
         button.classList.add('material-icons')
         button.innerHTML = "close"
+
         return button
     },
     removePhoto(event) {
@@ -233,9 +210,9 @@ const Validate = {
         if (results.error)
             Validate.displayError(input, results.error)
     },
-
     displayError(input, error) {
         const div = document.createElement('div')
+
         div.classList.add('error')
         div.innerHTML = error
         input.parentNode.appendChild(div)
@@ -243,14 +220,12 @@ const Validate = {
         // prevents the user from leaving the field with an error
         input.focus()
     },
-
     clearErrors(input) {
         const errorDiv = input.parentNode.querySelector('.error')
 
         if (errorDiv)
             errorDiv.remove()
     },
-
     isEmail(value) {
         let error = null
         const mailFormat = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/
@@ -263,7 +238,6 @@ const Validate = {
             value
         }
     },
-
     isCpfCnpj(value) {
         let error = null
 
@@ -281,7 +255,6 @@ const Validate = {
             value
         }
     },
-
     isCep(value) {
         let error = null
 
@@ -296,13 +269,13 @@ const Validate = {
             value
         }
     },
-
     allFields(event) {
         const items = document.querySelectorAll('.item input, .item select, .item textarea')
     
         for (let item of items) {
             if (item.value == "" && items.removed_files.value != "") {
                 const message = document.createElement('div')
+                
                 message.classList.add('messages')
                 message.classList.add('error')
                 message.style.position = 'fixed'
