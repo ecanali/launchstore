@@ -1,9 +1,10 @@
 const { unlinkSync } = require('fs')
 
+const LoadProductService = require('../services/LoadProductService')
+
 const Category = require('../models/Category')
 const Product = require('../models/Product')
 const File = require('../models/File')
-const LoadProductService = require('../services/LoadProductService')
 
 module.exports = {
     async create(req, res) {

@@ -26,27 +26,42 @@ const email = (seller, product, buyer) => `
 
 module.exports = {
     async index(req, res) {
-        // get the user's orders
-        const orders = await LoadOrderService.load('orders', { 
-            where: { buyer_id: req.session.userId }
-        })
-
-        return res.render('orders/index', { orders })
+        try {
+            // get the user's orders
+            const orders = await LoadOrderService.load('orders', { 
+                where: { buyer_id: req.session.userId }
+            })
+    
+            return res.render('orders/index', { orders })
+            
+        } catch (error) {
+            console.error(error)
+        }
     },
     async sales(req, res) {
-        // get the user's orders
-        const sales = await LoadOrderService.load('orders', { 
-            where: { seller_id: req.session.userId }
-        })
-
-        return res.render('orders/sales', { sales })
+        try {
+            // get the user's orders
+            const sales = await LoadOrderService.load('orders', { 
+                where: { seller_id: req.session.userId }
+            })
+    
+            return res.render('orders/sales', { sales })
+            
+        } catch (error) {
+            console.error(error)
+        }
     },
     async show(req, res) {
-        const order = await LoadOrderService.load('order', {
-            where: { id: req.params.id }
-        })
-
-        return res.render('orders/details', { order })
+        try {
+            const order = await LoadOrderService.load('order', {
+                where: { id: req.params.id }
+            })
+    
+            return res.render('orders/details', { order })
+            
+        } catch (error) {
+            console.error(error)
+        }
     },
     async post(req, res) {
         try {

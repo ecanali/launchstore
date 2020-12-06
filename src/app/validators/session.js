@@ -1,32 +1,38 @@
-const User = require('../models/User')
 const { compare } = require('bcryptjs')
 
+const User = require('../models/User')
+
 async function login(req, res, next) {
-    const { email, password } = req.body
-
-    const user = await User.findOne({ where: { email } })
-
-    if (!user) return res.render('session/login', {
-        user: req.body,
-        error: "Usuário não cadastrado!"
-    })
-
-    const passed = await compare(password, user.password)
-
-    if (!passed) return res.render("session/login", {
-        user: req.body,
-        error: "Senha incorreta."
-    })
-
-    req.user = user
-
-    next()
+    try {
+        const { email, password } = req.body
+    
+        const user = await User.findOne({ where: { email } })
+    
+        if (!user) return res.render('session/login', {
+            user: req.body,
+            error: "Usuário não cadastrado!"
+        })
+    
+        const passed = await compare(password, user.password)
+    
+        if (!passed) return res.render("session/login", {
+            user: req.body,
+            error: "Senha incorreta."
+        })
+    
+        req.user = user
+    
+        next()
+        
+    } catch (error) {
+        console.error(error)
+    }
 }
 
 async function forgot(req, res, next) {
-    const { email } = req.body
-
     try {
+        const { email } = req.body
+        
         let user = await User.findOne({ where: { email } })
     
         if (!user) return res.render('session/forgot-password', {
@@ -44,44 +50,49 @@ async function forgot(req, res, next) {
 }
 
 async function reset(req, res, next) {
-    // search user
-    const { email, password, passwordRepeat, token } = req.body
-
-    const user = await User.findOne({ where: { email } })
-
-    if (!user) return res.render('session/password-reset', {
-        user: req.body,
-        token,
-        error: "Usuário não cadastrado!"
-    })
-
-    // check if password matches
-    if (password != passwordRepeat) return res.render('session/password-reset', {
-        user: req.body,
-        token,
-        error: "A senha e a repetição da senha estão incorretas."
-    })
-
-    // check if token matches
-    if (token != user.reset_token) return res.render('session/password-reset', {
-        user: req.body,
-        token,
-        error: "Token inválido! Solicite uma nova recuperação de senha."
-    })
-
-    // check if token not expired
-    let now = new Date()
-    now = now.setHours(now.getHours())
-
-    if (now > user.reset_token_expires) return res.render('session/password-reset', {
-        user: req.body,
-        token,
-        error: "Token expirado! Solicite uma nova recuperação de senha."
-    })
-
-    req.user = user
-
-    next()
+    try {
+        // search user
+        const { email, password, passwordRepeat, token } = req.body
+    
+        const user = await User.findOne({ where: { email } })
+    
+        if (!user) return res.render('session/password-reset', {
+            user: req.body,
+            token,
+            error: "Usuário não cadastrado!"
+        })
+    
+        // check if password matches
+        if (password != passwordRepeat) return res.render('session/password-reset', {
+            user: req.body,
+            token,
+            error: "A senha e a repetição da senha estão incorretas."
+        })
+    
+        // check if token matches
+        if (token != user.reset_token) return res.render('session/password-reset', {
+            user: req.body,
+            token,
+            error: "Token inválido! Solicite uma nova recuperação de senha."
+        })
+    
+        // check if token not expired
+        let now = new Date()
+        now = now.setHours(now.getHours())
+    
+        if (now > user.reset_token_expires) return res.render('session/password-reset', {
+            user: req.body,
+            token,
+            error: "Token expirado! Solicite uma nova recuperação de senha."
+        })
+    
+        req.user = user
+    
+        next()
+        
+    } catch (error) {
+        console.error(error)
+    }
 }
 
 module.exports = {

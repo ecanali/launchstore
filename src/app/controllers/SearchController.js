@@ -1,7 +1,6 @@
-const Product = require('../models/Product')
 const LoadProductsService = require('../services/LoadProductService')
 
-const { formatPrice } = require('../../lib/utils')
+const Product = require('../models/Product')
 
 module.exports = {
     async index(req, res) {
@@ -32,8 +31,8 @@ module.exports = {
                     categoriesFiltered.push(category)
 
                 return categoriesFiltered
-            }, []) // Uso de "reduce" para literalmente reduzir o número de categorias que vinham duplicadas na busca
-    
+            }, []) // 'Reduce' use to literally reduce the number of categories that come duplicated in the search
+
             return res.render('search/index', { products, search, categories })
         
         } catch (error) {

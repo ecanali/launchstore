@@ -26,19 +26,34 @@ const Base = {
         return this
     },
     async find(id) {
-        const results = await find({ where: { id } }, this.table)
-
-        return results.rows[0]
+        try {
+            const results = await find({ where: { id } }, this.table)
+    
+            return results.rows[0]
+            
+        } catch (error) {
+            console.error(error)
+        }
     },
     async findOne(filters) {
-        const results = await find(filters, this.table)
-
-        return results.rows[0]
+        try {
+            const results = await find(filters, this.table)
+    
+            return results.rows[0]
+            
+        } catch (error) {
+            console.error(error)
+        }
     },
     async findAll(filters) {
-        const results = await find(filters, this.table)
-
-        return results.rows
+        try {
+            const results = await find(filters, this.table)
+    
+            return results.rows
+            
+        } catch (error) {
+            console.error(error)
+        }
     },
     async findOneWithDeleted(filters) {
         try {
@@ -94,7 +109,14 @@ const Base = {
         }
     },
     delete(id) {
-        return db.query(`DELETE FROM ${this.table} WHERE id = $1`, [id])
+        try {
+            return db.query(`
+                DELETE FROM ${this.table} WHERE id = $1
+            `, [id])
+            
+        } catch (error) {
+            console.error(error)
+        }
     }
 }
 

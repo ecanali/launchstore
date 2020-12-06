@@ -2,15 +2,11 @@
     <div>Categoria</div>
     <div>
         <select name="category_id">
-
             {% for category in categories %}
-
                 <option value="{{ category.id }}" {% if product.category_id == category.id %} selected {% endif %}>
                     {{ category.name }}
                 </option>
-
             {% endfor %}
-
         </select>
     </div>
 </div>
@@ -48,6 +44,7 @@
             >
             <p>Selecione até 6 fotos</p>
         </div>
+
         <div id="photos-preview">
             {% if product.files %}
                 {% for image in product.files %}
@@ -65,7 +62,6 @@
                 >
             {% endif %}
         </div>
-        
     </div>
 </div>
 
@@ -80,6 +76,7 @@
             onkeydown="Mask.apply(this, 'formatBRL')"
         >
     </div>
+
     {% if product.old_price %}
         <input 
             type="hidden" 
@@ -114,6 +111,7 @@
                         checked
                     {% endif %}> Sim
             </span>
+
             <span>
                 <input 
                     type="radio" 

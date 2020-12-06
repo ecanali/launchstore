@@ -3,18 +3,14 @@
 {% import 'parts/card.njk' as card %}
 
 {% block content %}
-
     {% call card.render("Editar Produto", 'product-create container') %}
-        
-        {# form com "enctype" vai permitir receber arquivos no backend (as fotos) #}
+        {# form with 'enctype' in it allows receiving files(photos) in the backend #}
         <form method="POST" action="/products?_method=PUT" enctype="multipart/form-data">
-
             <div class="header">
                 <h3>Editar Produto</h3>
             </div>
 
             <div class="fields">
-                
                 {% include 'products/fields.njk' %}
                 
                 <input 
@@ -25,14 +21,12 @@
             </div>
 
             <button class= "button edit" type="submit" onclick="Validate.allFields(event)">Atualizar</button>
-
         </form>
 
         <form id="form-delete" action="/products?_method=DELETE" method="post">
             <input type="hidden" name="id" value="{{ product.id }}">
             <button class="button delete" type="submit">Deletar</button>
         </form>
-
     {% endcall %}
 
     <script>
@@ -44,5 +38,4 @@
             }
         })
     </script>
-
 {% endblock content %}

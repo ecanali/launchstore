@@ -3,20 +3,14 @@
 {% import 'parts/card.njk' as card %}
 
 {% block content %}
-
     {% call card.render("Cadastrar Produto", 'product-create container') %}
-
-        {# form com "enctype" vai permitir receber arquivos no backend (as fotos) #}
+        {# form with 'enctype' in it allows receiving files(photos) in the backend #}
         <form method="POST" action="/products" enctype="multipart/form-data">
-
             <div class="fields">
                 {% include 'products/fields.njk' %}
             </div>
             
             <button class= "button" type="submit" onclick="Validate.allFields(event)">Salvar</button>
-
         </form>
-
     {% endcall %}
-
 {% endblock content %}

@@ -1,7 +1,6 @@
-const { addOne } = require('../../lib/cart')
-const Cart = require('../../lib/cart')
-
 const LoadProductsService = require('../services/LoadProductService')
+
+const Cart = require('../../lib/cart')
 
 module.exports = {
     async index(req, res) {
@@ -18,17 +17,22 @@ module.exports = {
         }
     },
     async addOne(req, res) {
-        const { id } = req.params
-
-        const product = await LoadProductsService.load('product', { where: { id } })
-
-        let { cart } = req.session
-
-        cart = Cart.init(cart).addOne(product)
-
-        req.session.cart = cart
-
-        return res.redirect('/cart')
+        try {
+            const { id } = req.params
+    
+            const product = await LoadProductsService.load('product', { where: { id } })
+    
+            let { cart } = req.session
+    
+            cart = Cart.init(cart).addOne(product)
+    
+            req.session.cart = cart
+    
+            return res.redirect('/cart')
+            
+        } catch (error) {
+            console.error(error)
+        }
     },
     removeOne(req, res) {
         let { id } = req.params

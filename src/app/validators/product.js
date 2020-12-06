@@ -1,28 +1,38 @@
 async function post(req, res, next) {
-    // Separa info do Objeto vindo do form por suas Chaves e testa se n veio vazio
-    const keys = Object.keys(req.body)
+    try {
+        // Separates the 'Object' data by its 'keys' and checks if it's not empty  
+        const keys = Object.keys(req.body)
+        
+        for (let key of keys) {
+            if (req.body[key] == "")
+                return res.send("Por favor, volte e preencha todos os campos.")
+        }
     
-    for (let key of keys) {
-        if (req.body[key] == "")
-            return res.send("Por favor, volte e preencha todos os campos.")
+        if (!req.files || req.files.length == 0)
+            return res.send("Por favor, envie pelo menos uma imagem.")
+    
+        next()
+        
+    } catch (error) {
+        console.error(error)
     }
-
-    if (!req.files || req.files.length == 0)
-        return res.send('Por favor, envie pelo menos uma imagem.')
-
-    next()
 }
 
-async function put(req, res, next) {    
-    // Separa info do Objeto vindo do form por suas Chaves e testa se n veio vazio
-    const keys = Object.keys(req.body)
+async function put(req, res, next) {
+    try {
+        // Separates the 'Object' data by its 'keys' and checks if it's not empty
+        const keys = Object.keys(req.body)
+        
+        for (let key of keys) {
+            if (req.body[key] == "" && key != "removed_files")
+                return res.send("Por favor, volte e preencha todos os campos.")
+        }
     
-    for (let key of keys) {
-        if (req.body[key] == "" && key != "removed_files")
-            return res.send("Por favor, volte e preencha todos os campos.")
+        next()
+        
+    } catch (error) {
+        console.error(error)
     }
-
-    next()
 }
 
 module.exports = {
