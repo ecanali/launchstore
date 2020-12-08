@@ -27,6 +27,9 @@ async function put(req, res, next) {
             if (req.body[key] == "" && key != "removed_files")
                 return res.send("Por favor, volte e preencha todos os campos.")
         }
+
+        if (!req.files || req.files.length == 0)
+            return res.send("Por favor, envie pelo menos uma imagem.")
     
         next()
         
