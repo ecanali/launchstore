@@ -54,17 +54,35 @@ Launchstore é um site de marketplace completo, conta com busca e compra de prod
 
 ## Layout <a name="-layout" style="text-decoration:none"></a>
 
-### Seção de acesso público
+### Home
+<img alt="Home" src="./public/assets/home.png" width="800px" />
 
-<h1 align="center">
-    <img alt="Gif" src="./public/assets/publicSection.gif" width="800px" />
-</h1>
+### Busca
+<img alt="Search" src="./public/assets/search.png" width="800px" />
 
-### Seção de acesso privado
+### Login
+<img alt="Login" src="./public/assets/login.png" width="800px" />
 
-<h1 align="center">
-    <img alt="Gif Responsividade" src="./public/assets/privateSection.gif" width="800px" />
-</h1>
+### Minha conta
+<img alt="My account" src="./public/assets/my-account.png" width="800px" />
+
+### Cadastro do produto
+<img alt="Create product" src="./public/assets/create-product.png" width="800px" />
+
+### Detalhes do produto
+<img alt="Product details" src="./public/assets/product-details.png" width="800px" />
+
+### Carrinho de compras
+<img alt="Cart" src="./public/assets/cart.png" width="800px" />
+
+### Pedido com sucesso
+<img alt="Order success" src="./public/assets/order-success.png" width="800px" />
+
+### Meus pedidos
+<img alt="My orders" src="./public/assets/my-orders.png" width="800px" />
+
+### Minhas vendas
+<img alt="My sales" src="./public/assets/my-sales.png" width="800px" />
 
 ---
 
