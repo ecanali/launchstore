@@ -129,7 +129,7 @@ $ .\pg_ctl.exe -D "C:\Program Files\PostgreSQL\12\data" stop
 
 ```
 
-Depois de ligar o PostgreSQL, acesse o Postbird e crie um banco de dados com o nome de 'launchstoredb'. Feito isso, clique na opção de importar um arquivo .sql e importe o arquivo [database.sql](https://github.com/ecanali/launchbase/blob/master/database.sql) presente neste repositório. Você pode checar se o banco foi importado verificando suas tabelas. Se tudo deu certo até aqui, o seu banco de dados já está criado. 
+Depois de ligar o PostgreSQL, acesse o Postbird e crie um banco de dados com o nome de 'launchstoredb'. Feito isso, clique na opção de importar um arquivo .sql e importe o arquivo [database.sql](https://github.com/ecanali/launchstore/blob/master/database.sql) presente neste repositório. Você pode checar se o banco foi importado verificando suas tabelas. Se tudo deu certo até aqui, o seu banco de dados já está criado. 
 
 #### Observações
 
