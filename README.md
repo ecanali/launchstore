@@ -114,7 +114,7 @@ $ npm install
 
 Instale em seu computador o [PostgreSQL](https://www.postgresql.org/download/) e o [Postbird](https://www.electronjs.org/apps/postbird). Finalizando as instalações, ligue o PostgreSQL. 
 
-No Windows, o processo para ligá-lo segue os seguintes passos:
+No Windows, o processo para ligar o PostgreSQL é o seguinte:
 
 ```bash
 
